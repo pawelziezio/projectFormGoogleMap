@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="main.css">
+
+    <script src="jQuery/jquery.js"></script>
+
+    <title>Title</title>
+
+
+</head>
+
+<body>
+
+<div class="container">
+    <br>
+    <br>
+    <div class="row well">
+
+        <h1 class="col-sm-9 col-sm-offset-3"> FORMULARZ INFORMACYJNY</h1>
+        <br>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">IMIĘ</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="podaj imię"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">NAZWISKO</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" required placeholder="podaj nazwisko"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">DATA URODZENIA</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" pattern="^\d{2}\.\d{2}\.\d{4}$" required
+                           placeholder="dd.mm.rrrr"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">E-MAIL</label>
+                <div class="col-sm-9">
+                    <input type="email" class="form-control" required placeholder="email"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">KOD POCZTOWY</label>
+                <div class="col-sm-9">
+                    <input type="e-mail" class="form-control" required placeholder="kod pocztowy miejsca zamieszkania"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">DODATKOWE INFORMACJE</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" required pattern="^abc$"> </textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-6 control-label">JAKIEGO SYSTEMU OPERACYJNEGO UŻYWASZ?</label>
+                <div class="col-sm-6">
+                    <select class="form-control" required>
+                        <option value="1">Windows</option>
+                        <option value="2">IOS</option>
+                        <option value="3">Linux</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-6 control-label">JAKI PROCESOR POSIADASZ?</label>
+                <div class="col-sm-6">
+                    <input type="checkbox" class="checkbox-inline" name="i3"/> i3
+                    <input type="checkbox" class="checkbox-inline" name="i5"/> i5
+                    <input type="checkbox" class="checkbox-inline" name="i6"/> i7
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-default col-sm-6 col-sm-offset-6"
+                       value="WYŚLIJ FORMULARZ INFORMACYJNY"/>
+            </div>
+        </form>
+
+    </div>
+</div>
+<br>
+<br>
+<div class="container">
+    <div class="row well">
+
+        <div class=" col-sm-3">
+            <h3>PODAJ WSPÓŁRZĘDNE GEOGRAFICZNE:</h3>
+            <br>
+
+            <form>
+                <div class="form-group">
+                    <label class=" control-label">SZEOKOŚĆ GEOGRAFICZNA</label>
+                    <input type="number" id="latId" class="form-control" placeholder="ss.mmmm"/>
+                </div>
+
+                <div class="form-group">
+                    <label class=" control-label">DŁUGOŚĆ GEOGRAFICZNA</label>
+                    <input type="number" id="longId" class="form-control" placeholder="ss.mmmm"/>
+                </div>
+
+                <div class="form-group">
+                    <label class=" control-label">ZOOM</label>
+                    <input type="number" id="zoomId" class="form-control" placeholder="zz"/>
+                </div>
+
+                <button type="button" onclick="goLatLong()" class="btn btn-default col-sm-offset-7">ZASTOSUJ</button>
+            </form>
+        </div>
+
+        <div class="col-sm-9">
+            <div id="map" style="width:100%;height:600px"></div>
+        </div>
+
+        <script>
+          // 54.4404 18.5830 12 = trrójmiasto
+          var lat, long, zoom;
+
+          function goLatLong() {
+            lat = document.getElementById("latId").value;
+            long = document.getElementById("longId").value;
+            zoom = document.getElementById("zoomId").value;
+            myMap();
+          }
+          function myMap() {
+            var mapCanvas = document.getElementById("map");
+            var mapOptions = {
+              center: new google.maps.LatLng(Number(lat) || 54.4, Number(long) || 18.6),
+              zoom: Number(zoom)||5,
+              mapTypeId: google.maps.MapTypeId.HYBRID
+            };
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+
+          }
+
+          $.getJSON('https://maps.googleapis.com/maps/api/elevation/json?locations=54.4404,18.5830&key=AIzaSyDKV7vaDvA1YSeTHcTOXIQ8vZXbz-p4-PE',function (elevationResult){
+                console.log(elevationResult.status)
+          });
+
+
+        </script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKV7vaDvA1YSeTHcTOXIQ8vZXbz-p4-PE&callback=myMap"></script>
+
+
+    </div>
+</div>
+
+<script>
+  //-------------------------------------------------------------------------
+  //  var users = [];
+  //
+  //  function Person(name, description) {
+  //    this.name = name;
+  //    this.description = description
+  //  }
+  //
+  //  for (var i = 0; i < 20; i++) {
+  //    if (i % 2 === 0) {
+  //      var tempPerson = new Person(i, 'Parzysty');
+  //      users.push(tempPerson)
+  //    } else {
+  //      var tempPerson = new Person('brak', 'Nieparzysty');
+  //      users.push(tempPerson)
+  //    }
+  //  }
+  //
+  //  function comment() {
+  //    return 'To jest element' + this.name + ' z opisem ' + this.description + '.';
+  //  }
+  //
+  //  console.log(users);
+  //
+  //
+  //  Person.prototype.comment = comment;
+  //
+  //
+  //  for (var n = 0; n < users.length; ++n)
+  //    document.write(' ' + (n + 1) + ' ' + users[n].name + ' ' + users[n].description + ' ' + users[n].comment() + '<br>');
+  //-------------------------------------------------------------------------------------
+</script>
+
+<script src="jQuery/jquery.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+</body>
+</html>
